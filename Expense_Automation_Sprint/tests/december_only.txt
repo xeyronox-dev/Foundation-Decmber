@@ -1,0 +1,20 @@
+Monthly Expense Summary
+
+Rent: $4050.00
+Food: $430.50
+Utilities: $450.00
+Transportation: $140.00
+Entertainment: $350.00
+Tech: $750.00
+
+
+Advanced Analytics:
+Total Spending: $6170.50
+Number of Transactions: 22
+Average Transaction: $280.48
+Monthly Trends:
+  2023-10: $1410.50
+  2023-11: $1655.00
+  2023-12: $1685.00
+  2024-01: $1420.00
+Predicted Next Month: $6479.03 (5% increase)

@@ -1,0 +1,15 @@
+Monthly Expense Summary
+
+Food: $430.50
+
+
+Advanced Analytics:
+Total Spending: $430.50
+Number of Transactions: 6
+Average Transaction: $71.75
+Monthly Trends:
+  2023-10: $1410.50
+  2023-11: $1655.00
+  2023-12: $1685.00
+  2024-01: $1420.00
+Predicted Next Month: $452.03 (5% increase)
