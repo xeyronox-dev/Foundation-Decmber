@@ -1,0 +1,44 @@
+# Expected Output for Prefix Test
+
+File Renamer Tool
+Let's rename some files together!
+I work on Windows, macOS, Linux, and even Termux on Android.
+
+Which directory should I check (default: D:\Foundation Decmber\Automation_Utility_2\tests\test_prefix):
+
+Great! I found 3 files in that directory:
+  1. document.pdf
+  2. file1.txt
+  3. file2.txt
+
+Let's decide how to rename them!
+
+What kind of renaming would you like me to do?
+1. Add a prefix (like 'old_' before each name)
+2. Add a suffix (like '_backup' after each name)
+3. Replace text (change 'old' to 'new' in names)
+4. Add numbers (001, 002, 003, etc.)
+5. Make all names lowercase
+6. Make all names UPPERCASE
+Enter your choice (1-6): 1
+Enter prefix to add: test_
+
+--- RENAME PREVIEW ---
+  document.pdf -> test_document.pdf
+  file1.txt -> test_file1.txt
+  file2.txt -> test_file2.txt
+--- END PREVIEW ---
+
+This is just a preview. I can show you exactly what will happen before I make any changes.
+Important: I will skip protected files like this script itself.
+Should I go ahead and rename these files (y/n, default n): y
+✓ Renamed: document.pdf -> test_document.pdf
+✓ Renamed: file1.txt -> test_file1.txt
+✓ Renamed: file2.txt -> test_file2.txt
+
+--- SUMMARY ---
+Files I looked at: 3
+Files I renamed: 3
+Everything went smoothly!
+
+Thanks for using the File Renamer! Happy organizing!
