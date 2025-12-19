@@ -13,25 +13,43 @@ import os
 from collections import defaultdict
 
 def validate_row(row):
-    """Validate a CSV row for required fields and data types."""
+    """
+    Validate a CSV row for required fields and data types.
+
+    Ensures data integrity by checking:
+    - All required fields are present and non-empty
+    - Transaction type is valid (revenue or expense)
+    - Amount is a positive number
+    - Date and description are provided
+
+    Returns: (is_valid, data_or_error_message)
+    """
     try:
+        # Extract and clean data fields
         date = row.get('Date', '').strip()
         trans_type = row.get('Type', '').strip().lower()
         amount = float(row.get('Amount', '0').strip())
         description = row.get('Description', '').strip()
 
+        # Validate required fields
         if not date:
             return False, "Missing date"
         if trans_type not in ['revenue', 'expense']:
-            return False, f"Invalid type: {trans_type}"
+            return False, f"Invalid type: {trans_type}. Must be 'Revenue' or 'Expense'"
         if amount <= 0:
-            return False, f"Invalid amount: {amount}"
+            return False, f"Invalid amount: {amount}. Must be positive"
         if not description:
             return False, "Missing description"
 
-        return True, {'date': date, 'type': trans_type, 'amount': amount, 'description': description}
+        # Return validated data
+        return True, {
+            'date': date,
+            'type': trans_type,
+            'amount': amount,
+            'description': description
+        }
     except ValueError:
-        return False, "Invalid amount format"
+        return False, "Invalid amount format. Must be a number"
 
 def load_financial_data(csv_file):
     """Load and validate financial data from CSV."""

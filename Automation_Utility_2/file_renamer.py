@@ -148,6 +148,48 @@ def validate_directory(directory_path):
         print(f"Error validating directory: {error}")
         return None
 
+def get_rename_instructions():
+    """Ask user what kind of renaming they want to do."""
+    print("\nWhat kind of renaming would you like me to do?")
+    print("1. Add a prefix (like 'old_' before each name)")
+    print("2. Add a suffix (like '_backup' after each name)")
+    print("3. Replace text (change 'old' to 'new' in names)")
+    print("4. Add numbers (001, 002, 003, etc.)")
+    print("5. Make all names lowercase")
+    print("6. Make all names UPPERCASE")
+
+    while True:
+        choice = input("Enter your choice (1-6): ").strip()
+        if choice in ['1', '2', '3', '4', '5', '6']:
+            break
+        print("Please enter a number between 1 and 6.")
+
+    instructions = {}
+
+    if choice == '1':
+        prefix = input("What prefix should I add? ").strip()
+        instructions = {'type': 'add_prefix', 'text': prefix}
+    elif choice == '2':
+        suffix = input("What suffix should I add? ").strip()
+        instructions = {'type': 'add_suffix', 'text': suffix}
+    elif choice == '3':
+        old_text = input("What text should I replace? ").strip()
+        new_text = input("What should I replace it with? ").strip()
+        instructions = {'type': 'replace_text', 'old': old_text, 'new': new_text}
+    elif choice == '4':
+        start_num_input = input("Starting number (default: 1)? ").strip()
+        start_num = int(start_num_input) if start_num_input.isdigit() else 1
+        instructions = {'type': 'add_numbers', 'start': start_num}
+    elif choice == '5':
+        instructions = {'type': 'make_lowercase'}
+    elif choice == '6':
+        instructions = {'type': 'make_uppercase'}
+    else:
+        print("I didn't understand that choice. No changes will be made.")
+        instructions = {'type': 'none'}
+
+    return instructions
+
 def find_files_in_directory(directory_path):
     """Find all files in a directory with validation."""
     validated_path = validate_directory(directory_path)
@@ -236,7 +278,7 @@ def execute_renames(directory_path, file_list, instructions):
             # Check if source file still exists
             if not os.path.exists(old_path):
                 problems_encountered.append(f"Source file {old_filename} no longer exists")
-                print(f"✗ Skipped {old_filename}: File no longer exists")
+                print(f"[SKIPPED] {old_filename}: File no longer exists")
                 continue
 
             if instructions['type'] == 'add_numbers':
@@ -253,7 +295,7 @@ def execute_renames(directory_path, file_list, instructions):
                 # Check if target file already exists
                 if os.path.exists(new_path):
                     problems_encountered.append(f"Target file {new_filename} already exists")
-                    print(f"✗ Skipped {old_filename}: Target filename already exists")
+                    print(f"[SKIPPED] {old_filename}: Target filename already exists")
                     continue
 
                 # On case-insensitive filesystems, check for case conflicts
@@ -262,7 +304,7 @@ def execute_renames(directory_path, file_list, instructions):
                     existing_files = [f.lower() for f in os.listdir(directory_path) if os.path.isfile(os.path.join(directory_path, f))]
                     if new_filename.lower() in existing_files:
                         problems_encountered.append(f"Case conflict: {new_filename} would conflict with existing file on case-insensitive filesystem")
-                        print(f"✗ Skipped {old_filename}: Case conflict with existing file")
+                        print(f"[SKIPPED] {old_filename}: Case conflict with existing file")
                         continue
 
                 # Attempt the rename
@@ -272,80 +314,51 @@ def execute_renames(directory_path, file_list, instructions):
             else:
                 print(f"- Skipped: {old_filename} (no change needed)")
 
-        except Exception as error:
-            error_message = f"Failed to rename {old_filename}: {error}"
+        except PermissionError:
+            error_message = f"No permission to rename {old_filename}"
             print(f"[ERROR] {error_message}")
             problems_encountered.append(error_message)
         except OSError as error:
             error_message = f"OS error renaming {old_filename}: {error}"
-            print(f"✗ {error_message}")
+            print(f"[ERROR] {error_message}")
             problems_encountered.append(error_message)
         except Exception as error:
+            # Catch any other unexpected errors
             error_message = f"Unexpected error renaming {old_filename}: {error}"
-            print(f"✗ {error_message}")
+            print(f"[ERROR] {error_message}")
             problems_encountered.append(error_message)
 
     return successful_renames, problems_encountered
 
-def get_rename_instructions():
-    """Ask user what kind of renaming they want to do."""
-    print("\nWhat kind of renaming would you like me to do?")
-    print("1. Add a prefix (like 'old_' before each name)")
-    print("2. Add a suffix (like '_backup' after each name)")
-    print("3. Replace text (change 'old' to 'new' in names)")
-    print("4. Add numbers (001, 002, 003, etc.)")
-    print("5. Make all names lowercase")
-    print("6. Make all names UPPERCASE")
-
-    while True:
-        choice = input("Enter your choice (1-6): ").strip()
-        if choice in ['1', '2', '3', '4', '5', '6']:
-            break
-        print("Please enter a number between 1 and 6.")
-
-    instructions = {}
-
-    if choice == '1':
-        prefix = input("What prefix should I add? ").strip()
-        instructions = {'type': 'add_prefix', 'text': prefix}
-    elif choice == '2':
-        suffix = input("What suffix should I add? ").strip()
-        instructions = {'type': 'add_suffix', 'text': suffix}
-    elif choice == '3':
-        old_text = input("What text should I replace? ").strip()
-        new_text = input("What should I replace it with? ").strip()
-        instructions = {'type': 'replace_text', 'old': old_text, 'new': new_text}
-    elif choice == '4':
-        start_num_input = input("Starting number (default: 1)? ").strip()
-        start_num = int(start_num_input) if start_num_input.isdigit() else 1
-        instructions = {'type': 'add_numbers', 'start': start_num}
-    elif choice == '5':
-        instructions = {'type': 'make_lowercase'}
-    elif choice == '6':
-        instructions = {'type': 'make_uppercase'}
-    else:
-        print("I didn't understand that choice. No changes will be made.")
-        instructions = {'type': 'none'}
-
-    return instructions
-
 def main():
-    """Main program flow."""
-    # Load configuration
+    """
+    Main application entry point.
+
+    Workflow:
+    1. Load user preferences from config file
+    2. Get target directory from user (with smart defaults)
+    3. Validate directory access and permissions
+    4. Scan for files and display count
+    5. Present renaming options and get user choice
+    6. Show preview of changes
+    7. Apply renames with confirmation
+    8. Save preferences for next use
+    """
+    # Load user preferences from previous sessions
     config = load_config()
 
     print("File Renamer Tool")
     print("Let's rename some files together!")
     print("I work on Windows, macOS, Linux, and even Termux on Android.\n")
 
-    # Ask for directory (use last directory as default)
-    default_dir = config['last_directory']
+    # Get target directory (default to current directory)
+    default_dir = config.get('last_directory', '.')
     target_directory = get_input_with_default("Which directory should I check", default_dir)
 
-    # Validate directory using improved function
+    # Validate directory exists and is accessible
     validated_directory = validate_directory(target_directory)
     if not validated_directory:
-        print("Try a different directory path.")
+        print("Please try again with a valid directory path.")
         return
 
     # Find files

@@ -30,6 +30,20 @@ Manual expense totaling requires 20 minutes weekly, involving tedious calculatio
 ### Solution
 This automation script processes CSV purchase data, validates entries, sums amounts by category, and outputs a formatted summary instantly. It includes interactive options for custom file paths, category filtering, and date range selection.
 
+## Who is This For?
+
+**Perfect for:**
+- **Small Business Owners**: Quickly analyze monthly expenses without manual calculations
+- **Freelancers & Consultants**: Track project-related spending across categories
+- **Students & Budget-Conscious Individuals**: Monitor personal expenses and spending patterns
+- **Finance Teams**: Automate basic expense reporting and categorization
+- **Anyone with CSV Expense Data**: If you export expenses from apps, banks, or accounting software
+
+**Not suitable for:**
+- Complex multi-company accounting systems
+- Advanced financial analysis requiring charts/graphs
+- Integration with existing accounting software
+
 ## Prerequisites
 
 - **Python Version**: 3.x or higher
@@ -48,11 +62,9 @@ Clone or download the repository and ensure Python is installed.
 
 ## Usage
 
+### Quick Start
 1. Place your `purchases.csv` file in the project directory (or specify a custom path when prompted).
-2. Execute the script:
-   ```bash
-   python expense_summary.py
-   ```
+2. Run: `python expense_summary.py`
 3. Follow the interactive prompts to configure options (file names, filters).
 4. Review the generated summary file.
 
@@ -60,6 +72,45 @@ Clone or download the repository and ensure Python is installed.
 - **Input/Output Files**: Specify custom CSV input and text output file names.
 - **Category Filtering**: Include only specific categories (comma-separated).
 - **Date Range Filtering**: Limit to expenses within a date range (YYYY-MM-DD).
+
+### Step-by-Step Example
+```bash
+$ python expense_summary.py
+
+Enter input CSV file name (default: purchases.csv): purchases.csv
+Enter output file name (default: Monthly_Summary.txt): expense_report.txt
+Filter by categories? (y/n): y
+Enter categories to include (comma-separated, e.g., Food,Rent): Food,Rent
+Filter by date range? (y/n): y
+Enter start date (YYYY-MM-DD): 2023-12-01
+Enter end date (YYYY-MM-DD): 2023-12-31
+
+Success: Summary generated in expense_report.txt
+```
+
+### Advanced Usage Examples
+
+#### Filter by Specific Categories
+```
+Filter by categories? (y/n): y
+Enter categories to include: Food,Transportation
+```
+Result: Only shows expenses in Food and Transportation categories.
+
+#### Analyze Specific Time Period
+```
+Filter by date range? (y/n): y
+Enter start date: 2023-11-01
+Enter end date: 2023-11-30
+```
+Result: Only November 2023 expenses included.
+
+#### Custom File Names
+```
+Enter input CSV file name: my_expenses.csv
+Enter output file name: november_summary.txt
+```
+Result: Reads from `my_expenses.csv`, writes to `november_summary.txt`.
 
 ## Example
 

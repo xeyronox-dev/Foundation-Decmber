@@ -6,6 +6,21 @@ A simple Python tool to calculate profit or loss from financial transaction data
 
 This tool analyzes revenue and expense data to provide a clear financial summary, including total profit/loss, transaction counts, and top categories.
 
+## Who is This For?
+
+**Perfect for:**
+- **Small Business Owners**: Track profitability and identify top revenue sources
+- **Freelancers & Entrepreneurs**: Monitor business financial health with simple metrics
+- **Financial Analysts**: Quick analysis of transaction data without complex software
+- **Accountants**: Validate financial data and generate basic profit/loss reports
+- **Students & Educators**: Learn financial analysis concepts with real data
+
+**Not suitable for:**
+- Complex financial modeling or forecasting
+- Multi-currency transactions (single currency only)
+- Advanced accounting features (taxes, depreciation, etc.)
+- Integration with existing accounting systems
+
 ## Features
 
 - **Input Validation**: Checks for valid data types, required fields, and positive amounts
@@ -25,10 +40,50 @@ No installation needed. Just run the script with Python.
 
 ## Usage
 
+### Quick Start
 1. Prepare a CSV file with columns: Date, Type (Revenue/Expense), Amount, Description
 2. Run: `python profit_loss_calculator.py`
 3. Enter the CSV filename when prompted (or press enter for default)
 4. View the formatted profit/loss report
+
+### Step-by-Step Example
+```bash
+$ python profit_loss_calculator.py
+
+Profit/Loss Calculator
+Analyzes revenue and expenses to calculate net profit or loss.
+
+Enter CSV file name (default: financial_data.csv): financial_data.csv
+```
+
+The tool will then process your data and display a comprehensive report.
+
+### CSV File Format
+Your CSV must have these exact column headers:
+- **Date**: Transaction date (YYYY-MM-DD format)
+- **Type**: Either "Revenue" or "Expense" (case-insensitive)
+- **Amount**: Numeric value (positive for both revenue and expenses)
+- **Description**: Brief description of the transaction
+
+### Usage Examples
+
+#### Basic Profit Analysis
+```
+Input: Mixed revenue and expense transactions
+Output: Total revenue, total expenses, net profit/loss
+```
+
+#### Revenue-Only Analysis
+```
+Input: Only revenue transactions
+Output: Revenue breakdown and sources
+```
+
+#### Expense Tracking
+```
+Input: Only expense transactions
+Output: Expense categories and spending analysis
+```
 
 ## Example
 
